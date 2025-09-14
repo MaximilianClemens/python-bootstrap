@@ -1,4 +1,4 @@
-# python-bootstrap
+# bootstrap-wrapper
 Python Wrapper for Bootstrap CSS/JavaScript Assets
 
 ## Overview
@@ -8,7 +8,7 @@ This repository automatically syncs with the latest Bootstrap distribution files
 **✨ NEW: Now installable as a Python package!**
 
 ```bash
-pip install python-bootstrap==5.3.8
+pip install bootstrap-wrapper==5.3.8
 ```
 
 ## Bootstrap Assets
@@ -20,7 +20,7 @@ This repository automatically syncs with the latest Bootstrap distribution files
 #### Install from PyPI (Recommended)
 
 ```bash
-pip install python-bootstrap==5.3.8
+pip install bootstrap-wrapper==5.3.8
 ```
 
 #### Usage in Web Frameworks
@@ -35,8 +35,8 @@ import importlib.metadata
 app = FastAPI()
 
 # Get Bootstrap assets path
-dist = importlib.metadata.distribution("python-bootstrap")
-static_path = Path(dist.locate_file("python_bootstrap/dist"))
+dist = importlib.metadata.distribution("bootstrap-wrapper")
+static_path = Path(dist.locate_file("bootstrap_wrapper/dist"))
 
 # Mount Bootstrap static files
 app.mount("/bootstrap", StaticFiles(directory=str(static_path)), name="bootstrap")
@@ -54,8 +54,8 @@ from pathlib import Path
 
 app = Flask(__name__)
 
-dist = importlib.metadata.distribution("python-bootstrap")
-BOOTSTRAP_PATH = Path(dist.locate_file("python_bootstrap/dist"))
+dist = importlib.metadata.distribution("bootstrap-wrapper")
+BOOTSTRAP_PATH = Path(dist.locate_file("bootstrap_wrapper/dist"))
 
 @app.route('/bootstrap/<path:filename>')
 def bootstrap_static(filename):
@@ -68,8 +68,8 @@ def bootstrap_static(filename):
 import importlib.metadata
 from pathlib import Path
 
-dist = importlib.metadata.distribution("python-bootstrap")
-BOOTSTRAP_STATIC_ROOT = Path(dist.locate_file("python_bootstrap/dist"))
+dist = importlib.metadata.distribution("bootstrap-wrapper")
+BOOTSTRAP_STATIC_ROOT = Path(dist.locate_file("bootstrap_wrapper/dist"))
 
 STATICFILES_DIRS = [
     BOOTSTRAP_STATIC_ROOT,

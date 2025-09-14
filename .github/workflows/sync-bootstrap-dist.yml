@@ -122,7 +122,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
           # Create annotated tag
-          git tag -a "$CLEAN_VERSION" -m "Release python-bootstrap $CLEAN_VERSION with Bootstrap $VERSION"
+          git tag -a "$CLEAN_VERSION" -m "Release bootstrap_wrapper $CLEAN_VERSION with Bootstrap $VERSION"
           
           # Push the tag
           git push origin "$CLEAN_VERSION"
@@ -134,7 +134,7 @@ jobs:
           if [ "${{ steps.check-version.outputs.update_needed }}" = "true" ]; then
             echo "✅ Bootstrap updated to ${{ steps.bootstrap-release.outputs.version }}"
             echo "📝 Pull request created for review"
-            echo "🏷️  Git tag created for python-bootstrap release"
+            echo "🏷️  Git tag created for bootstrap_wrapper release"
           else
             echo "✅ Bootstrap is already up to date (${{ steps.check-version.outputs.current_version }})"
             echo "ℹ️  No action needed"

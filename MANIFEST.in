@@ -1,4 +1,5 @@
 recursive-include bootstrap *
 include bootstrap/version.txt
+include bootstrap/LICENSE
 include README.md
 include LICENSE

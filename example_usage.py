@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Example usage of python-bootstrap package
+Example usage of bootstrap-wrapper package
 
-This demonstrates how to use the python-bootstrap package in web applications
+This demonstrates how to use the bootstrap-wrapper package in web applications
 to serve Bootstrap CSS and JavaScript files.
 """
 
@@ -12,9 +12,9 @@ import importlib.metadata
 def get_bootstrap_assets():
     """Get the path to Bootstrap assets after package installation"""
     try:
-        # This will work after pip install python-bootstrap
-        dist = importlib.metadata.distribution("python-bootstrap")
-        bootstrap_path = Path(dist.locate_file("python_bootstrap/dist"))
+        # This will work after pip install bootstrap-wrapper
+        dist = importlib.metadata.distribution("bootstrap-wrapper")
+        bootstrap_path = Path(dist.locate_file("bootstrap_wrapper/dist"))
         return bootstrap_path
     except importlib.metadata.PackageNotFoundError:
         # Fallback for development - use local bootstrap directory
@@ -32,8 +32,8 @@ app = FastAPI()
 
 # Get Bootstrap assets path
 try:
-    dist = importlib.metadata.distribution("python-bootstrap")
-    static_path = Path(dist.locate_file("python_bootstrap/dist"))
+    dist = importlib.metadata.distribution("bootstrap-wrapper")
+    static_path = Path(dist.locate_file("bootstrap_wrapper/dist"))
 except importlib.metadata.PackageNotFoundError:
     # Development fallback
     static_path = Path("bootstrap")
@@ -63,8 +63,8 @@ import importlib.metadata
 from pathlib import Path
 
 try:
-    dist = importlib.metadata.distribution("python-bootstrap")
-    BOOTSTRAP_STATIC_ROOT = Path(dist.locate_file("python_bootstrap/dist"))
+    dist = importlib.metadata.distribution("bootstrap-wrapper")
+    BOOTSTRAP_STATIC_ROOT = Path(dist.locate_file("bootstrap_wrapper/dist"))
 except importlib.metadata.PackageNotFoundError:
     BOOTSTRAP_STATIC_ROOT = Path("bootstrap")
 
@@ -88,8 +88,8 @@ from pathlib import Path
 app = Flask(__name__)
 
 try:
-    dist = importlib.metadata.distribution("python-bootstrap")
-    BOOTSTRAP_PATH = Path(dist.locate_file("python_bootstrap/dist"))
+    dist = importlib.metadata.distribution("bootstrap-wrapper")
+    BOOTSTRAP_PATH = Path(dist.locate_file("bootstrap_wrapper/dist"))
 except importlib.metadata.PackageNotFoundError:
     BOOTSTRAP_PATH = Path("bootstrap")
 
@@ -104,15 +104,15 @@ def bootstrap_static(filename):
     return code
 
 if __name__ == "__main__":
-    print("🎯 python-bootstrap Package Usage Examples")
+    print("🎯 bootstrap-wrapper Package Usage Examples")
     print("=" * 50)
     
     # Show current package info
     try:
-        import python_bootstrap
-        print(f"📦 Version: {python_bootstrap.__version__}")
+        import bootstrap_wrapper
+        print(f"📦 Version: {bootstrap_wrapper.__version__}")
     except ImportError:
-        print("📦 Package not installed - use: pip install python-bootstrap")
+        print("📦 Package not installed - use: pip install bootstrap-wrapper")
     
     # Show assets location
     bootstrap_path = get_bootstrap_assets()
@@ -134,4 +134,4 @@ if __name__ == "__main__":
     print(flask_example())
     
     print("\n💡 Installation:")
-    print("pip install python-bootstrap==5.3.8")
+    print("pip install bootstrap-wrapper==5.3.8")
