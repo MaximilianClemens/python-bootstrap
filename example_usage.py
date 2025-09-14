@@ -1,0 +1,137 @@
+#!/usr/bin/env python3
+"""
+Example usage of python-bootstrap package
+
+This demonstrates how to use the python-bootstrap package in web applications
+to serve Bootstrap CSS and JavaScript files.
+"""
+
+from pathlib import Path
+import importlib.metadata
+
+def get_bootstrap_assets():
+    """Get the path to Bootstrap assets after package installation"""
+    try:
+        # This will work after pip install python-bootstrap
+        dist = importlib.metadata.distribution("python-bootstrap")
+        bootstrap_path = Path(dist.locate_file("python_bootstrap/dist"))
+        return bootstrap_path
+    except importlib.metadata.PackageNotFoundError:
+        # Fallback for development - use local bootstrap directory
+        return Path(__file__).parent / "bootstrap"
+
+def fastapi_example():
+    """Example FastAPI setup"""
+    code = '''
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from pathlib import Path
+import importlib.metadata
+
+app = FastAPI()
+
+# Get Bootstrap assets path
+try:
+    dist = importlib.metadata.distribution("python-bootstrap")
+    static_path = Path(dist.locate_file("python_bootstrap/dist"))
+except importlib.metadata.PackageNotFoundError:
+    # Development fallback
+    static_path = Path("bootstrap")
+
+# Mount Bootstrap static files
+app.mount("/bootstrap", StaticFiles(directory=str(static_path)), name="bootstrap")
+
+# Now you can access:
+# http://localhost:8000/bootstrap/css/bootstrap.min.css
+# http://localhost:8000/bootstrap/js/bootstrap.bundle.min.js
+
+@app.get("/")
+async def root():
+    return {
+        "message": "Bootstrap assets available at /bootstrap/",
+        "css": "/bootstrap/css/bootstrap.min.css",
+        "js": "/bootstrap/js/bootstrap.bundle.min.js"
+    }
+'''
+    return code
+
+def django_example():
+    """Example Django setup"""
+    code = '''
+# In your Django settings.py:
+import importlib.metadata
+from pathlib import Path
+
+try:
+    dist = importlib.metadata.distribution("python-bootstrap")
+    BOOTSTRAP_STATIC_ROOT = Path(dist.locate_file("python_bootstrap/dist"))
+except importlib.metadata.PackageNotFoundError:
+    BOOTSTRAP_STATIC_ROOT = Path("bootstrap")
+
+# Add to STATICFILES_DIRS
+STATICFILES_DIRS = [
+    BOOTSTRAP_STATIC_ROOT,
+]
+
+# Or configure as a custom static files finder
+# and use {% load static %} with {% static "css/bootstrap.min.css" %} in templates
+'''
+    return code
+
+def flask_example():
+    """Example Flask setup"""
+    code = '''
+from flask import Flask, send_from_directory
+import importlib.metadata
+from pathlib import Path
+
+app = Flask(__name__)
+
+try:
+    dist = importlib.metadata.distribution("python-bootstrap")
+    BOOTSTRAP_PATH = Path(dist.locate_file("python_bootstrap/dist"))
+except importlib.metadata.PackageNotFoundError:
+    BOOTSTRAP_PATH = Path("bootstrap")
+
+@app.route('/bootstrap/<path:filename>')
+def bootstrap_static(filename):
+    return send_from_directory(str(BOOTSTRAP_PATH), filename)
+
+# Now you can access:
+# http://localhost:5000/bootstrap/css/bootstrap.min.css
+# http://localhost:5000/bootstrap/js/bootstrap.bundle.min.js
+'''
+    return code
+
+if __name__ == "__main__":
+    print("🎯 python-bootstrap Package Usage Examples")
+    print("=" * 50)
+    
+    # Show current package info
+    try:
+        import python_bootstrap
+        print(f"📦 Version: {python_bootstrap.__version__}")
+    except ImportError:
+        print("📦 Package not installed - use: pip install python-bootstrap")
+    
+    # Show assets location
+    bootstrap_path = get_bootstrap_assets()
+    if bootstrap_path.exists():
+        css_files = list(bootstrap_path.glob("css/*.min.css"))
+        js_files = list(bootstrap_path.glob("js/*.min.js"))
+        print(f"📂 Bootstrap assets: {bootstrap_path}")
+        print(f"🎨 CSS files: {len(css_files)}")
+        print(f"⚡ JS files: {len(js_files)}")
+    
+    print("\n🔧 Framework Integration Examples:")
+    print("\n1. FastAPI:")
+    print(fastapi_example())
+    
+    print("\n2. Django:")
+    print(django_example())
+    
+    print("\n3. Flask:")
+    print(flask_example())
+    
+    print("\n💡 Installation:")
+    print("pip install python-bootstrap==5.3.8")

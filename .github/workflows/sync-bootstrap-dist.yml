@@ -110,11 +110,31 @@ jobs:
           delete-branch: true
           base: main
 
+      - name: Create Git Tag
+        if: steps.check-version.outputs.update_needed == 'true'
+        run: |
+          # Create and push a git tag with the Bootstrap version
+          VERSION="${{ steps.bootstrap-release.outputs.version }}"
+          # Remove 'v' prefix if present to match Python package versioning
+          CLEAN_VERSION=${VERSION#v}
+          
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          # Create annotated tag
+          git tag -a "$CLEAN_VERSION" -m "Release python-bootstrap $CLEAN_VERSION with Bootstrap $VERSION"
+          
+          # Push the tag
+          git push origin "$CLEAN_VERSION"
+          
+          echo "✅ Created and pushed git tag: $CLEAN_VERSION"
+
       - name: Summary
         run: |
           if [ "${{ steps.check-version.outputs.update_needed }}" = "true" ]; then
             echo "✅ Bootstrap updated to ${{ steps.bootstrap-release.outputs.version }}"
             echo "📝 Pull request created for review"
+            echo "🏷️  Git tag created for python-bootstrap release"
           else
             echo "✅ Bootstrap is already up to date (${{ steps.check-version.outputs.current_version }})"
             echo "ℹ️  No action needed"
