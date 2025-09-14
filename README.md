@@ -80,8 +80,13 @@ STATICFILES_DIRS = [
 
 - **Schedule**: The Bootstrap assets are automatically updated weekly on Mondays at 09:00 UTC
 - **Manual Trigger**: You can manually trigger an update by running the "Sync Bootstrap Dist" workflow
-- **Pull Requests**: When a new Bootstrap version is available, the workflow automatically creates a pull request with the updated files
-- **Version Tags**: When Bootstrap updates, a corresponding git tag is automatically created (e.g., `5.3.8`)
+  - **Force Update**: Use the `force_update` option to force an update even if the version is the same
+- **Auto-Merge**: When a new Bootstrap version is available, the workflow automatically:
+  1. Creates a pull request with the updated files
+  2. Auto-merges the PR (no manual review required)
+  3. Creates a git tag matching the Bootstrap version (e.g., `5.3.8`)
+  4. Creates a GitHub release automatically
+  5. Triggers PyPI publishing via the existing publish workflow
 
 ### Bootstrap Files
 
@@ -98,7 +103,10 @@ The sync process uses the GitHub Actions workflow located at `.github/workflows/
 2. Compares with the current version in `bootstrap/version.txt`
 3. Downloads and extracts the official Bootstrap dist ZIP if an update is needed
 4. Creates a pull request with the updated files
-5. Creates a git tag matching the Bootstrap version for PyPI releases
+5. Auto-merges the pull request immediately (no manual review required)
+6. Creates a git tag matching the Bootstrap version for PyPI releases
+7. Creates a GitHub release automatically
+8. Triggers PyPI package publishing through the existing publish workflow
 
 ## Development
 
