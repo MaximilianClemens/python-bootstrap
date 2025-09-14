@@ -59,6 +59,7 @@ jobs:
         run: |
           # Download the dist ZIP
           curl -L "${{ steps.bootstrap-release.outputs.dist_url }}" -o bootstrap-dist.zip
+          curl https://raw.githubusercontent.com/twbs/bootstrap/refs/heads/main/LICENSE -o bootstrap/LICENSE
           
           # Create bootstrap directory if it doesn't exist
           mkdir -p bootstrap
