@@ -13,10 +13,9 @@ def get_bootstrap_assets():
     """Get the path to Bootstrap assets after package installation"""
     try:
         # This will work after pip install bootstrap-wrapper
-        dist = importlib.metadata.distribution("bootstrap-wrapper")
-        bootstrap_path = Path(dist.locate_file("bootstrap_wrapper/dist"))
-        return bootstrap_path
-    except importlib.metadata.PackageNotFoundError:
+        import bootstrap_wrapper
+        return bootstrap_wrapper.get_bootstrap_dir()
+    except ImportError:
         # Fallback for development - use local bootstrap directory
         return Path(__file__).parent / "bootstrap"
 
@@ -32,9 +31,9 @@ app = FastAPI()
 
 # Get Bootstrap assets path
 try:
-    dist = importlib.metadata.distribution("bootstrap-wrapper")
-    static_path = Path(dist.locate_file("bootstrap_wrapper/dist"))
-except importlib.metadata.PackageNotFoundError:
+    import bootstrap_wrapper
+    static_path = bootstrap_wrapper.get_bootstrap_dir()
+except ImportError:
     # Development fallback
     static_path = Path("bootstrap")
 
@@ -63,9 +62,9 @@ import importlib.metadata
 from pathlib import Path
 
 try:
-    dist = importlib.metadata.distribution("bootstrap-wrapper")
-    BOOTSTRAP_STATIC_ROOT = Path(dist.locate_file("bootstrap_wrapper/dist"))
-except importlib.metadata.PackageNotFoundError:
+    import bootstrap_wrapper
+    BOOTSTRAP_STATIC_ROOT = bootstrap_wrapper.get_bootstrap_dir()
+except ImportError:
     BOOTSTRAP_STATIC_ROOT = Path("bootstrap")
 
 # Add to STATICFILES_DIRS
@@ -88,9 +87,9 @@ from pathlib import Path
 app = Flask(__name__)
 
 try:
-    dist = importlib.metadata.distribution("bootstrap-wrapper")
-    BOOTSTRAP_PATH = Path(dist.locate_file("bootstrap_wrapper/dist"))
-except importlib.metadata.PackageNotFoundError:
+    import bootstrap_wrapper
+    BOOTSTRAP_PATH = bootstrap_wrapper.get_bootstrap_dir()
+except ImportError:
     BOOTSTRAP_PATH = Path("bootstrap")
 
 @app.route('/bootstrap/<path:filename>')

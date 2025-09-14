@@ -20,4 +20,35 @@ try:
 except Exception:  # pylint: disable=broad-exception-caught
     __version__ = "0.0.0"
 
-__all__ = ["__version__"]
+
+def get_bootstrap_dir():
+    """
+    Get the path to the Bootstrap assets directory.
+    
+    Returns:
+        Path: Path to the bootstrap directory containing CSS and JS files
+    """
+    return Path(__file__).parent.parent / "bootstrap"
+
+
+def get_bootstrap_css_dir():
+    """
+    Get the path to the Bootstrap CSS directory.
+    
+    Returns:
+        Path: Path to the bootstrap/css directory
+    """
+    return get_bootstrap_dir() / "css"
+
+
+def get_bootstrap_js_dir():
+    """
+    Get the path to the Bootstrap JS directory.
+    
+    Returns:
+        Path: Path to the bootstrap/js directory
+    """
+    return get_bootstrap_dir() / "js"
+
+
+__all__ = ["__version__", "get_bootstrap_dir", "get_bootstrap_css_dir", "get_bootstrap_js_dir"]
