@@ -1,6 +1,6 @@
 name: Sync Bootstrap Dist
 
-on:
+'on':
   schedule:
     # Run weekly on Mondays at 09:00 UTC
     - cron: '0 9 * * 1'
