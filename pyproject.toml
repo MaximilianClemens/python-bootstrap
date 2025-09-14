@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "A Python wrapper to distribute Bootstrap CSS/JS assets"
 readme = "README.md"
 requires-python = ">=3.7"
-license = { text = "MIT License" }
+license = { text = "MIT" }
 authors = [
     { name = "Maximilian Clemens", email = "m.clemens@mailbox.org" },
 ]
@@ -16,7 +16,6 @@ keywords = ["bootstrap", "css", "javascript", "web", "frontend"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",

@@ -29,14 +29,12 @@ pip install bootstrap-wrapper==5.3.8
 ```python
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from pathlib import Path
-import importlib.metadata
+import bootstrap_wrapper
 
 app = FastAPI()
 
 # Get Bootstrap assets path
-dist = importlib.metadata.distribution("bootstrap-wrapper")
-static_path = Path(dist.locate_file("bootstrap_wrapper/dist"))
+static_path = bootstrap_wrapper.get_bootstrap_dir()
 
 # Mount Bootstrap static files
 app.mount("/bootstrap", StaticFiles(directory=str(static_path)), name="bootstrap")
@@ -49,13 +47,11 @@ app.mount("/bootstrap", StaticFiles(directory=str(static_path)), name="bootstrap
 **Flask Example:**
 ```python
 from flask import Flask, send_from_directory
-import importlib.metadata
-from pathlib import Path
+import bootstrap_wrapper
 
 app = Flask(__name__)
 
-dist = importlib.metadata.distribution("bootstrap-wrapper")
-BOOTSTRAP_PATH = Path(dist.locate_file("bootstrap_wrapper/dist"))
+BOOTSTRAP_PATH = bootstrap_wrapper.get_bootstrap_dir()
 
 @app.route('/bootstrap/<path:filename>')
 def bootstrap_static(filename):
@@ -65,11 +61,9 @@ def bootstrap_static(filename):
 **Django Example:**
 ```python
 # In settings.py
-import importlib.metadata
-from pathlib import Path
+import bootstrap_wrapper
 
-dist = importlib.metadata.distribution("bootstrap-wrapper")
-BOOTSTRAP_STATIC_ROOT = Path(dist.locate_file("bootstrap_wrapper/dist"))
+BOOTSTRAP_STATIC_ROOT = bootstrap_wrapper.get_bootstrap_dir()
 
 STATICFILES_DIRS = [
     BOOTSTRAP_STATIC_ROOT,
@@ -115,6 +109,27 @@ Run the example script to see usage examples:
 ```bash
 python example_usage.py
 ```
+
+### Publishing to PyPI
+
+The project is automatically published to PyPI as `bootstrap-wrapper` when:
+1. A new GitHub release is created 
+2. The GitHub Actions workflow runs successfully
+
+For manual publishing (if needed):
+
+```bash
+# Install build tools
+pip install build twine
+
+# Build the package
+python -m build
+
+# Upload to PyPI (requires API token)
+twine upload dist/*
+```
+
+**Note**: The package uses trusted publishing via GitHub Actions, so manual uploads should generally not be necessary.
 
 ## License
 
